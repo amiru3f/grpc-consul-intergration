@@ -1,0 +1,13 @@
+﻿syntax = "proto3";
+
+service Available {
+  rpc RequestForProposal (AvailableRequest) returns (AvailableReply);
+}
+
+message AvailableRequest {
+  string origin = 1;
+}
+
+message AvailableReply {
+  string requestId = 1;
+}
