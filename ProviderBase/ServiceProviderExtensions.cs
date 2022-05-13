@@ -46,6 +46,10 @@ public static class ServiceProviderExtensions
 
     public static WebApplicationBuilder ConfigureGrpcKestrel(this WebApplicationBuilder builder, int port = 5000)
     {
+        #if DEBUG
+            port = new Random().Next(6000,7000);
+        #endif 
+        
         builder.WebHost.UseKestrel(options =>
         {
             options.ListenAnyIP(port, o => o.Protocols = HttpProtocols.Http2);
