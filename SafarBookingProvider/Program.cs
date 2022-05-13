@@ -3,7 +3,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder
         .ConfigureGrpcKestrel(port: 5003)
         //can be changed (refactored)
-        .AddStub(new ArminRequestHandler())
+        .AddStub(new AvailableRequestHandler())
         .AddGrpcServices()
         .AddConsulDiscovery();
 
