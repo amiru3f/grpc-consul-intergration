@@ -4,23 +4,48 @@ services:
     image: consul
     container_name: consul
     ports: 5000
+    networks:
+      - grpc_mesh
   request-dispatcher:
     build: ./RequestDispatcher
     container_name: request-dispatcher
     ports: 5000
+    depends_on:
+      - service-discovery
+    networks:
+      - grpc_mesh
   airtour-provider:
     build: ./AirtourProvider
     container_name: airtour-provider
     ports: 5000
+    depends_on:
+      - service-discovery
+    networks:
+      - grpc_mesh
   amadeus-provider:
     build: ./AmadeusProvider
     container_name: amadeus-provider
     ports: 5000
+    depends_on:
+      - service-discovery
+    networks:
+      - grpc_mesh
   test-provider:
     build: ./TestProvider
     container_name: test-provider
     ports: 5000
+    depends_on:
+      - service-discovery
+    networks:
+      - grpc_mesh
   safarbooking-provider:
     build: ./SafarBookingProvider
     container_name: safarbooking-provider
     ports: 5000
+    depends_on:
+      - service-discovery
+    networks:
+      - grpc_mesh
+networks:
+  grpc_mesh:
+    driver: bridge
