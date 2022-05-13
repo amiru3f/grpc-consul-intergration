@@ -1,3 +1,4 @@
+using System.Net;
 using Consul;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -19,7 +20,7 @@ public static class ServiceProviderExtensions
         var addressFeature = server.Features.Get<IServerAddressesFeature>()!;
         var addresses = addressFeature.Addresses.Select(address => new Uri(address));
 
-        return addresses.First();
+        return new Uri("http://" + Dns.GetHostName() + ":" + addresses.First().Port);
     }
 
     public static WebApplicationBuilder AddGrpcServices(this WebApplicationBuilder builder)
@@ -45,9 +46,9 @@ public static class ServiceProviderExtensions
 
     public static WebApplicationBuilder ConfigureGrpcKestrel(this WebApplicationBuilder builder, int port = 5000)
     {
-        builder.WebHost.ConfigureKestrel(options =>
+        builder.WebHost.UseKestrel(options =>
         {
-            options.ListenLocalhost(port, o => o.Protocols = HttpProtocols.Http2);
+            options.ListenAnyIP(port, o => o.Protocols = HttpProtocols.Http2);
         });
 
         return builder;
@@ -88,7 +89,7 @@ public static class ServiceProviderExtensions
 
             options.Check = new AgentServiceCheck()
             {
-                TCP = $"host.docker.internal:{address.Port}",
+                TCP = $"{Dns.GetHostName()}:{address.Port}",
                 Interval = TimeSpan.FromSeconds(10),
                 Timeout = TimeSpan.FromSeconds(1)
             };

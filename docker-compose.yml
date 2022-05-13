@@ -8,52 +8,56 @@ services:
     ports:
       - 8080:8500
   request-dispatcher:
-    build: ./RequestDispatcher
-    container_name: request-dispatcher
+    build: 
+       context: ./
+       dockerfile: ./RequestDispatcher/Dockerfile
+    container_name: dispatcher
     environment:
       - Discovery__Url=http://consul:8500
     depends_on:
       - service-discovery
     ports:
-      - 5000:5000
+      - 5050:80
     networks:
       - grpc_mesh
   airtour-provider:
-    build: ./AirtourProvider
-    container_name: airtour-provider
+    build: 
+        context: ./
+        dockerfile: ./AirtourProvider/Dockerfile
+    container_name: airtour
     environment:
       - Discovery__Url=http://consul:8500
-    depends_on:
-      - service-discovery
-    networks:
-      - grpc_mesh
-  amadeus-provider:
-    build: ./AmadeusProvider
-    container_name: amadeus-provider
-    environment:
-      - Discovery__Url=http://consul:8500
-    depends_on:
-      - service-discovery
-    networks:
-      - grpc_mesh
-  test-provider:
-    build: ./TestProvider
-    container_name: test-provide
-    environment:
-      - Discovery__Url=http://consul:8500
-    depends_on:
-      - service-discovery
     networks:
       - grpc_mesh
   safarbooking-provider:
-    build: ./SafarBookingProvider
-    container_name: safarbooking-provider
+    build: 
+        context: ./
+        dockerfile: ./SafarBookingProvider/Dockerfile
+    container_name: safarbooking
     environment:
       - Discovery__Url=http://consul:8500
-    depends_on:
-      - service-discovery
     networks:
       - grpc_mesh
+  amadeus-provider:
+    build: 
+        context: ./
+        dockerfile: ./AmadeusProvider/Dockerfile
+    container_name: amadeus
+    environment:
+      - Discovery__Url=http://consul:8500
+    networks:
+      - grpc_mesh
+  
+  test-provider:
+    build: 
+        context: ./
+        dockerfile: ./TestProvider/Dockerfile
+    container_name: testprovider
+    environment:
+      - Discovery__Url=http://consul:8500
+    networks:
+      - grpc_mesh
+
 networks:
   grpc_mesh:
     driver: bridge
