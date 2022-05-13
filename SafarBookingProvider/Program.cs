@@ -1,7 +1,7 @@
 var builder = WebApplication.CreateBuilder(args);
 
 builder
-        .ConfigureGrpcKestrel(port: 5003)
+        .ConfigureGrpcKestrel()
         //can be changed (refactored)
         .AddStub(new AvailableRequestHandler())
         .AddGrpcServices()

@@ -1,6 +1,26 @@
 version: "3.9"
 services:
+  service-discovery:
+    image: consul
+    container_name: consul
+    ports: 5000
+  request-dispatcher:
+    build: ./RequestDispatcher
+    container_name: request-dispatcher
+    ports: 5000
   airtour-provider:
     build: ./AirtourProvider
-    ports:
-      - "5000:5000"
+    container_name: airtour-provider
+    ports: 5000
+  amadeus-provider:
+    build: ./AmadeusProvider
+    container_name: amadeus-provider
+    ports: 5000
+  test-provider:
+    build: ./TestProvider
+    container_name: test-provider
+    ports: 5000
+  safarbooking-provider:
+    build: ./SafarBookingProvider
+    container_name: safarbooking-provider
+    ports: 5000
