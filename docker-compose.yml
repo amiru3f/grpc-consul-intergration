@@ -5,14 +5,17 @@ services:
     container_name: consul
     networks:
       - grpc_mesh
+    ports:
+      - 8080:8500
   request-dispatcher:
     build: ./RequestDispatcher
     container_name: request-dispatcher
     environment:
       - Discovery__Url=http://consul:8500
-    ports: 5000
     depends_on:
       - service-discovery
+    ports:
+      - 5000:5000
     networks:
       - grpc_mesh
   airtour-provider:
@@ -20,7 +23,6 @@ services:
     container_name: airtour-provider
     environment:
       - Discovery__Url=http://consul:8500
-    ports: 5000
     depends_on:
       - service-discovery
     networks:
@@ -30,7 +32,6 @@ services:
     container_name: amadeus-provider
     environment:
       - Discovery__Url=http://consul:8500
-    ports: 5000
     depends_on:
       - service-discovery
     networks:
@@ -40,7 +41,6 @@ services:
     container_name: test-provide
     environment:
       - Discovery__Url=http://consul:8500
-    ports: 5000
     depends_on:
       - service-discovery
     networks:
@@ -50,7 +50,6 @@ services:
     container_name: safarbooking-provider
     environment:
       - Discovery__Url=http://consul:8500
-    ports: 5000
     depends_on:
       - service-discovery
     networks:
