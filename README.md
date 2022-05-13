@@ -12,3 +12,8 @@ docker-compose up -d
 Then you can visit localhost:8080 to check registered up and running services.
 
 gRPC contracts is approved by RequestDispatcher and Providers that is generated from [`available.proto`](https://github.com/amiru3f/grpc-consul-intergration/blob/main/Shared/available.proto) file.
+
+After checking up and running services, you can test the grpc-based streaming process by visiting:
+```
+http://localhost:5050/test
+```
