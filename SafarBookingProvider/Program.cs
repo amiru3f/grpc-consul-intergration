@@ -9,7 +9,6 @@ builder
 
 
 var app = builder.Build();
-
 app.MapGrpcEndpoints();
 
 app.EnableDiscoveryRegistration("safar-booking-provider");

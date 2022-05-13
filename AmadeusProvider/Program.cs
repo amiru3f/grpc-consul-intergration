@@ -9,13 +9,7 @@ builder
 
 
 var app = builder.Build();
-
-app.UseRouting();
-app.UseEndpoints(ep =>
-{
-    ep.MapGrpcService<AvailableGrpcService>();
-    ep.MapGrpcReflectionService();
-});
-
+app.MapGrpcEndpoints();
 app.EnableDiscoveryRegistration("amadeus-provider");
+
 await app.RunAsync();
