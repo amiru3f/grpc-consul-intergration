@@ -3,12 +3,13 @@ services:
   service-discovery:
     image: consul
     container_name: consul
-    ports: 5000
     networks:
       - grpc_mesh
   request-dispatcher:
     build: ./RequestDispatcher
     container_name: request-dispatcher
+    environment:
+      - Discovery__Url=http://consul:8500
     ports: 5000
     depends_on:
       - service-discovery
@@ -17,6 +18,8 @@ services:
   airtour-provider:
     build: ./AirtourProvider
     container_name: airtour-provider
+    environment:
+      - Discovery__Url=http://consul:8500
     ports: 5000
     depends_on:
       - service-discovery
@@ -25,6 +28,8 @@ services:
   amadeus-provider:
     build: ./AmadeusProvider
     container_name: amadeus-provider
+    environment:
+      - Discovery__Url=http://consul:8500
     ports: 5000
     depends_on:
       - service-discovery
@@ -32,7 +37,9 @@ services:
       - grpc_mesh
   test-provider:
     build: ./TestProvider
-    container_name: test-provider
+    container_name: test-provide
+    environment:
+      - Discovery__Url=http://consul:8500
     ports: 5000
     depends_on:
       - service-discovery
@@ -41,6 +48,8 @@ services:
   safarbooking-provider:
     build: ./SafarBookingProvider
     container_name: safarbooking-provider
+    environment:
+      - Discovery__Url=http://consul:8500
     ports: 5000
     depends_on:
       - service-discovery
